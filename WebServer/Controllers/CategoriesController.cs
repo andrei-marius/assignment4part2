@@ -48,12 +48,24 @@ public class CategoriesController : ControllerBase
         var category = new Category
         {
             Name = model.Name,
-            Description = model.Description
+            Description = model.Description,
         };
 
         _dataService.CreateCategory(category);
 
-        return Ok(category);
+        return Created(CreateCategoryModel(category).Url, category);
+    }
+
+    [HttpPost("{id}", Name = nameof(UpdateCategory))]
+    public IActionResult UpdateCategory(int id)
+    {
+        var category = _dataService.GetCategory(id);
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(CreateCategoryModel(category));
     }
 
 
