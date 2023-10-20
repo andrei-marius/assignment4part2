@@ -56,7 +56,8 @@ public class CategoriesController : ControllerBase
         return Created(CreateCategoryModel(category).Url, category);
     }
 
-    [HttpPost("{id}", Name = nameof(UpdateCategory))]
+    //work in progress
+    [HttpPut("{id}")]
     public IActionResult UpdateCategory(int id)
     {
         var category = _dataService.GetCategory(id);
@@ -65,7 +66,22 @@ public class CategoriesController : ControllerBase
             return NotFound();
         }
 
+        category.Name = "Updated";
+        category.Description = "Updated";
+
         return Ok(CreateCategoryModel(category));
+    }
+    
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCategory(int id)
+    {
+        var category = _dataService.GetCategory(id);
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+        return Ok();
     }
 
 
