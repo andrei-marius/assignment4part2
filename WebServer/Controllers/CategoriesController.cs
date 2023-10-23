@@ -56,7 +56,6 @@ public class CategoriesController : ControllerBase
         return Created(CreateCategoryModel(category).Url, category);
     }
 
-    //work in progress
     [HttpPut("{id}")]
     public IActionResult UpdateCategory(int id)
     {
@@ -66,8 +65,8 @@ public class CategoriesController : ControllerBase
             return NotFound();
         }
 
-        category.Name = "Updated";
-        category.Description = "Updated";
+        category.Name = "CreatedUpdated";
+        category.Description = "CreatedUpdated";
 
         return Ok(CreateCategoryModel(category));
     }
