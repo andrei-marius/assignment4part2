@@ -25,8 +25,15 @@ public class ProductsController : ControllerBase
         if (name != null)
         {
             var categoriesX = _dataService.GetProductByName(name);
+
+            if (categoriesX.Count == 0)
+            {
+                return NotFound(categoriesX);
+            }
+
             return Ok(categoriesX);
         }
+
         var categories = _dataService.GetProducts().Select(x => CreateProductModel(x));
         return Ok(categories);
     }
@@ -47,7 +54,7 @@ public class ProductsController : ControllerBase
     public IActionResult GetProductsCategory(int id)
     {
         var products = _dataService.GetProducts().Where(product => product.Category.Id == id).Select(x => CreateProductModel(x));
-        if (products.ToList().Count() == 0)
+        if (products.ToList().Count == 0)
         {
             return NotFound(products);
         }
@@ -55,19 +62,19 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
-    [HttpGet("name")]
-    public IActionResult GetProductsByName(string name)
-    {
-        var products = _dataService.GetProducts()
-            .Where(product => product.Name.Contains(name))
-            .Select(x => CreateProductModel(x));
-        if (products.ToList().Count() == 0) // WIP
-        {
-            return NotFound(products);
-        }
+    //[HttpGet("name")]
+    //public IActionResult GetProductsByName(string name)
+    //{
+    //    var products = _dataService.GetProducts()
+    //        .Where(product => product.Name.Contains(name))
+    //        .Select(x => CreateProductModel(x));
+    //    if (products.ToList().Count() == 0) // WIP
+    //    {
+    //        return NotFound(products);
+    //    }
 
-        return Ok(products);
-    }
+    //    return Ok(products);
+    //}
 
 
     private ProductModel CreateProductModel(Product product)
